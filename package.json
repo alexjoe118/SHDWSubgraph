@@ -5,9 +5,9 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy chiano/listnfts --ipfs  http://162.0.216.193:5001 --node http://162.0.216.193:8020 --debug",
-    "create": "graph create --node http://162.0.216.193:8020 chiano/listnfts",
-    "remove-local": "graph remove --node http://162.0.216.193:8020 chiano/listnfts",
+    "deploy": "graph deploy shadowswap/listnfts --ipfs  http://162.0.216.193:5001 --node http://162.0.216.193:8020 --debug",
+    "create": "graph create --node http://162.0.216.193:8020 shadowswap/listnfts",
+    "remove-local": "graph remove --node http://162.0.216.193:8020 shadowswap/listnfts",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 chiano/listnfts"
   },
   "dependencies": {

@@ -1,0 +1,33 @@
+specVersion: 0.0.2
+description: IndexNfts
+repository: https://github.com/IndexNfts
+schema:
+  file: ./schema.graphql
+dataSources:
+  #### All ERC721 ####
+  - kind: ethereum/contract
+    name: IERC721
+    network: mainnet
+    source:
+      abi: IERC721
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - transfer
+        - transaction
+        - account
+      abis:
+        - name: IERC721
+          file: ./node_modules/@openzeppelin/contracts/build/contracts/IERC721.json
+        - name: IERC721Metadata
+          file: ./node_modules/@openzeppelin/contracts/build/contracts/IERC721Metadata.json
+        - name: Contract721
+          file: ./abis/Contract721.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/eip721/index.ts
+   

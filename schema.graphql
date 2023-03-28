@@ -81,6 +81,9 @@ type token @entity {
     " The tokenURI of the NFT"
     tokenURI: String!
 
+    " The JOSN metadata of the NFT"
+    metaData: String!
+
 	" The address the currently owns the token "
 	owner: account 
 

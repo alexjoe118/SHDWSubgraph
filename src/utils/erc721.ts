@@ -87,9 +87,9 @@ export async function fetchToken(collection: collection, id: BigInt): token {
 			const ipfsHash = try_tokenuri.value
 			const ipfsURL = ipfsHash.replace("ipfs://", "https://ipfs.io/ipfs/")
 			try {
-	        		const response = await fetch(ipfsURL);
+	        		const response = await axios.get(ipfsURL);
 				tokenEntity.metaData = response
-			} catch (){
+			} catch (e:any){
 				tokenEntity.metaData = ''
 			}
 		}else{

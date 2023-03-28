@@ -27,8 +27,6 @@ import {
 	constants,
 } from '../../src/graphprotocol-utils'
 
-import fetch from 'node-fetch';
-
 
 export function fetchRegistry(address: Address): collection {
 	let erc721   		= IERC721Metadata.bind(address)
@@ -88,10 +86,16 @@ export async function fetchToken(collection: collection, id: BigInt): token {
 			tokenEntity.tokenURI  = try_tokenuri.value
 			const ipfsHash = try_tokenuri.value
 			const ipfsURL = ipfsHash.replace("ipfs://", "https://ipfs.io/ipfs/")
-        	const response = await fetch(ipfsURL);
-		}else[
+			try {
+	        		const response = await fetch(ipfsURL);
+				tokenEntity.metaData = response
+			} catch (){
+				tokenEntity.metaData = ''
+			}
+		}else{
 			tokenEntity.tokenURI  = ''
-		]
+			tokenEntity.metaData = ''
+		}
 		tokenEntity.collection 		= collection.id
 		tokenEntity.identifier 		= id
 

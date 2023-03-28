@@ -321,6 +321,7 @@ export class token extends Entity {
     this.set("collection", Value.fromString(""));
     this.set("identifier", Value.fromBigInt(BigInt.zero()));
     this.set("tokenURI", Value.fromString(""));
+    this.set("metaData", Value.fromString(""));
   }
 
   save(): void {
@@ -373,6 +374,15 @@ export class token extends Entity {
 
   set tokenURI(value: string) {
     this.set("tokenURI", Value.fromString(value));
+  }
+
+  get metaData(): string {
+    let value = this.get("metaData");
+    return value!.toString();
+  }
+
+  set metaData(value: string) {
+    this.set("metaData", Value.fromString(value));
   }
 
   get owner(): string | null {

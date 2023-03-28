@@ -27,6 +27,7 @@ import {
 	constants,
 } from '../../src/graphprotocol-utils'
 
+const axios = require('axios');
 
 export function fetchRegistry(address: Address): collection {
 	let erc721   		= IERC721Metadata.bind(address)

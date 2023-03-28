@@ -5,8 +5,8 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy shadowswap/listnfts --ipfs  http://localhost:5001 --node http://localhost:8020 --debug",
-    "create": "graph create --node http://localhost:8020 shadowswap/listnfts",
+    "deploy": "graph deploy shadowswap/listnfts --ipfs  http://65.21.85.21:5001 --node http://65.21.85.21:8020 --debug",
+    "create": "graph create shadowswap/listnfts --node http://65.21.85.21:8020",
     "remove-local": "graph remove --node http://localhost:8020 shadowswap/listnfts",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 chiano/listnfts"
   },

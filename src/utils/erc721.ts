@@ -2,6 +2,8 @@ import {
 	Address,
     BigDecimal,
     BigInt,
+	ipfs,
+	json
 } from '@graphprotocol/graph-ts'
 
 import {
@@ -26,8 +28,6 @@ import {
 import {
 	constants,
 } from '../../src/graphprotocol-utils'
-
-const axios = require('axios');
 
 export function fetchRegistry(address: Address): collection {
 	let erc721   		= IERC721Metadata.bind(address)
@@ -71,7 +71,7 @@ export function fetchRegistry(address: Address): collection {
 	//return null as collection
 }
 
-export async function fetchToken(collection: collection, id: BigInt): token {
+export function fetchToken(collection: collection, id: BigInt): token {
 	let tokenid = 'ethereum/'.concat(collection.id.concat('/').concat(id.toString()))
 	let tokenEntity = token.load(tokenid)
 	if (tokenEntity == null) {
@@ -81,16 +81,16 @@ export async function fetchToken(collection: collection, id: BigInt): token {
 		tokenEntity            		= new token(tokenid)
 		let erc721   				= IERC721Metadata.bind(Address.fromString(collection.id))
 		let try_tokenuri            = erc721.try_tokenURI(id)
-		tokenEntity.tokenURI        = try_tokenuri.reverted   ? '' : try_tokenuri.value
-
 		if(try_tokenuri){
 			tokenEntity.tokenURI  = try_tokenuri.value
 			const ipfsHash = try_tokenuri.value
-			const ipfsURL = ipfsHash.replace("ipfs://", "https://ipfs.io/ipfs/")
-			try {
-	        		const response = await axios.get(ipfsURL);
-				tokenEntity.metaData = response
-			} catch (e:any){
+			const path = ipfsHash.replace("ipfs://", "")
+			
+			const data = ipfs.cat(path)
+			if(data){
+				const metadata = json.fromBytes(data).toString();
+				tokenEntity.metaData = metadata
+			}else {
 				tokenEntity.metaData = ''
 			}
 		}else{

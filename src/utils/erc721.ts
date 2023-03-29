@@ -2,6 +2,7 @@ import {
 	Address,
     BigDecimal,
     BigInt,
+	JSONValue,
 	ipfs,
 	json
 } from '@graphprotocol/graph-ts'
@@ -81,22 +82,27 @@ export function fetchToken(collection: collection, id: BigInt): token {
 		tokenEntity            		= new token(tokenid)
 		let erc721   				= IERC721Metadata.bind(Address.fromString(collection.id))
 		let try_tokenuri            = erc721.try_tokenURI(id)
-		// if(try_tokenuri){
-		// 	tokenEntity.tokenURI  = try_tokenuri.value
-		// 	const ipfsHash = try_tokenuri.value
-		// 	const path = ipfsHash.replace("ipfs://", "")
+		if(try_tokenuri){
+			tokenEntity.tokenURI  = try_tokenuri.value
+			const ipfsHash = try_tokenuri.value
 			
-		// 	const data = ipfs.cat(path)
-		// 	if(data){
-		// 		const metadata = json.fromBytes(data).toString();
-		// 		tokenEntity.metaData = metadata
-		// 	}else {
-		// 		tokenEntity.metaData = ''
-		// 	}
-		// }else{
+			if (ipfsHash.startsWith('ipfs://')){
+				const path = ipfsHash.replace("ipfs://", "")
+				const data = ipfs.cat(path)
+				if(data){
+					const metadata = json.fromBytes(data).toString()
+					tokenEntity.metaData = metadata
+				}else {
+					tokenEntity.metaData = ''
+				}
+			}else{
+				tokenEntity.metaData = ''
+			}
+
+		}else{
 			tokenEntity.tokenURI  = ''
 			tokenEntity.metaData = ''
-		// }
+		}
 		tokenEntity.collection 		= collection.id
 		tokenEntity.identifier 		= id
 

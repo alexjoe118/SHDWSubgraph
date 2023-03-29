@@ -90,8 +90,8 @@ export function fetchToken(collection: collection, id: BigInt): token {
 				const path = ipfsHash.replace("ipfs://", "")
 				const data = ipfs.cat(path)
 				if(data){
-					const metadata = json.fromBytes(data).toString()
-					tokenEntity.metaData = metadata
+					//const metadata = json.fromBytes(data).toString()
+					tokenEntity.metaData = 'metadata'
 				}else {
 					tokenEntity.metaData = ''
 				}
